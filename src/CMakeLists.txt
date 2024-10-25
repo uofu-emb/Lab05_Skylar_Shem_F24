@@ -1,7 +1,8 @@
 add_compile_definitions(
     DELAY_MS=100
     IN_PIN=6
-    OUT_PIN=7)
+    OUT_PIN=7
+)
 
 add_executable(task_delay task_delay.c)
 pico_enable_stdio_uart(task_delay 0)
@@ -32,9 +33,9 @@ pico_add_extra_outputs(sleep)
 add_custom_target(flash_sleep picotool load -f $<TARGET_FILE:sleep> DEPENDS sleep)
 
 
-# add_executable(irq gpio_interrupt.c)
-# pico_enable_stdio_uart(irq 0)
-# pico_enable_stdio_usb(irq 1)
-# target_link_libraries(irq PRIVATE pico_stdlib)
-# pico_add_extra_outputs(irq)
-# add_custom_target(flash_irq picotool load -f $<TARGET_FILE:irq> DEPENDS irq)
+ add_executable(irq gpio_interrupt.c)
+ pico_enable_stdio_uart(irq 0)
+ pico_enable_stdio_usb(irq 1)
+ target_link_libraries(irq PRIVATE pico_stdlib)
+ pico_add_extra_outputs(irq)
+ add_custom_target(flash_irq picotool load -f $<TARGET_FILE:irq> DEPENDS irq)
