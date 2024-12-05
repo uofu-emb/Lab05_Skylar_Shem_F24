@@ -2,11 +2,16 @@
 #include <pico/stdlib.h>
 #include <pico/sync.h>
 
+
+int busy_loop(void);
+
 int toggle = 1;
 bool timer_callback(__unused struct repeating_timer *t)
 {
+    
     toggle = !toggle;
     gpio_put(OUT_PIN, toggle);
+    busy_loop();
     return true;
 }
 
@@ -27,4 +32,13 @@ int main(void)
     add_repeating_timer_ms(-DELAY_MS, timer_callback, NULL, &timer);
     while(1) __nop();
     return 0;
+}
+
+
+int busy_loop(void) {
+    int count = 0;
+    while(count < 36) {
+        count++;
+        sleep_ms(1);
+    }
 }
